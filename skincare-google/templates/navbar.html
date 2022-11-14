@@ -1,0 +1,70 @@
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <!--[if lt IE 9]>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+  <style type="text/css">
+    body {
+      height: 300vh;
+      background-color: whitesmoke;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <!-- 下margin      顏色灰色 -->
+  <div class="container" >
+      <nav class="navbar  navbar-expand-lg navbar-default navbar-fixed-top" role="navigation">
+        <!-- 上下左右都有padding -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle='collapse' data-target='.navbar-ex1-collapse'>
+            <!-- 那個點很重要 -->
+            <span class="sr-only">選單切換</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+      
+          {% load static %}
+          <div class="container">
+            <a class="navbar-brand" href="/">
+              <img src="{% static 'image/logo.png' %}" alt="" height="35">
+            </a>
+          </div>
+        </div>
+        <!-- 刪除預設padding margin -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+      
+          <!-- 被float right推過去 -->
+          <ul class="nav navbar-nav navbar-right" style="right:10px">
+            <li><a href="/">首頁</a></li>
+            <li><a href="{% url 'about-us' %}">關於我們</a></li>
+            <!-- li裡面還有ul !!! -->
+            <!-- 按下後，增加class open -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">服務項目<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'skin-type' %}">膚質檢測</a></li>
+                <li><a href="{% url 'nail-test' %}">指甲檢測</a></li>
+                <li><a href="{% url 'acne-test' %}">痘痘檢測</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+</body>
+
+</html>
