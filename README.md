@@ -6,4 +6,3 @@
 
 ### **Line官方帳號**
 - https://lin.ee/bb14WA3
-![](https://i.imgur.com/wtq1kN1.jpg =300x300)
