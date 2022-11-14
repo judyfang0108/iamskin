@@ -1,0 +1,127 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+<head>
+
+  <div class="menu">
+    <title>愛美膚iamSkin</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.segmentfault.com/r-95fcc0d4/favicon.ico">
+    </link>
+  </div>
+  
+</head>
+
+<body>
+  <div class="vertical-blank2"></div>
+  <div class="gray-full-line"></div>
+  <div>
+    {% load static %}
+    <img class=pre-image style src="{% static 'image/pre.png' %}">
+  </div>
+  <div class="gray-full-line"></div>
+ 
+  <div style="border-color: #e7e7e7;">
+    <b>
+      <h1 class="main-title" style="text-decoration:underline">AI皮膚檢測工具</h1>
+      <h3>精準醫療的關鍵在於預防，愛美膚旨在透過AI人工智慧與醫療的跨域結合，提供創新且方便使用的醫療服務，從被動接受治療到主動預防疾病，以加強民眾之自主健康管理。</h3>
+    </b>
+    
+    <div class="image-wrap">
+      <div class="image-col">
+        {% load static %}
+        <h3><img class=icon src="{% static 'image/skin.png' %}"></a></h3>
+    
+        <div class="image-title">膚質大師-SkinType</div>
+        <br>
+        <div class="gray-line"></div>
+        <div class="image-function">
+          <p>運用人工智慧評估皮膚膚質，<br>取得膚質類型結果圖，<br>以及皮膚照護衛教資訊。</p>
+        </div>
+    
+        <button class="analysis" type="submit" onclick="location.href='{% url 'skin-type' %}'">點擊分析膚質</button>
+      </div>
+    
+      <div class="image-col">
+        {% load static %}
+        <h3><img class=icon src="{% static 'image/nail.png' %}"></a></h3>
+        <div class="image-title">指甲大師-NailTest</div>
+        <br>
+        <div class="gray-line"></div>
+        <div class="image-function">
+          <p>運用人工智慧評估指甲異常風險，<br>取得指甲異常風險結果圖，<br>以及指甲照護衛教資訊。</p>
+        </div>
+    
+        <button class="analysis" type="submit" onclick="location.href='{% url 'nail-test' %}'">點擊分析指甲</button>
+      </div>
+    
+      <div class="image-col">
+        {% load static %}
+        <h3><img class=icon src="{% static 'image/acne.png' %}"></a></h3>
+    
+        <div class="image-title">痘痘大師-AcneTest</div>
+        <br>
+        <div class="gray-line"></div>
+        <div class="image-function">
+          <p>運用人工智慧評估痘痘嚴重程度，<br>取得痘痘嚴重程度結果圖，<br>以及痘痘照護衛教資訊。</p>
+        </div>
+    
+        <button class="analysis" type="submit" onclick="location.href='{% url 'acne-test' %}'">點擊分析痘痘</button>
+      </div>
+    </div>
+  </div>
+  <div class="vertical-blank"></div>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="q-and-a">
+      <div class="navbar-header">
+        <b class="navbar-brand" style="text-decoration:underline">
+          常見問題
+        </b>
+      </div>
+      <div class="q-and-a">
+        <h5 class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+            <p style="color: #778FA8;"><b>Ｑ：愛美膚有什麼功能？</b><b class="caret"></b></p>
+          </a>
+          <ul class="dropdown-menu">
+            <h5><b style="color:green">Ａ：</b> 我們提供三項功能</h5>
+            <ul>
+              <li>膚質檢測 (檢測您的膚質為乾性肌、油性肌、敏感肌)</li>
+              <li>指甲檢測 (檢測您的指甲異常風險)</li>
+              <li>痘痘檢測 (檢測您痘痘的嚴重程度)</li>
+              <br>
+            </ul>
+            <p class="warning">*注意事項：此服務僅作為風險之初步判斷，以達到適時時預防之功能，如需更詳細的檢查，請務必尋求專業醫療單位。</p>
+        
+          </ul>
+        </h5>
+        <h5 class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <p style="color: #778FA8;"><b>Ｑ：使用檢測服務需要收費嗎?</b><b class="caret"></b></p>
+          </a>
+          <ul class="dropdown-menu">
+            <h5><b style="color:green">Ａ：</b> 不用呦！</h5>
+            <p>我們完全免費</p>
+          </ul>
+        </h5>
+        <h5 class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <p style="color: #778FA8; "><b>Ｑ：使用服務時上傳的圖片會不會有資安疑慮？</b><b class="caret"></b></p>
+          </a>
+          <ul class="dropdown-menu">
+            <h5><b style="color:green">Ａ：</b> 不會的！</h5>
+            <p>圖片經由AI判讀後會立即刪除，不會做任何的存檔，請您放心。</p>
+          </ul>
+        </h5>
+      </div>
+      <div class="navbar-header">
+        <h5 style="color: #777">➭貼心提示：點擊上方導覽列「關於我們」加入我們Line官方帳號，使用起來更方便喔！</h5>
+      </div>
+    </div>
+  </nav>
+
+
+</body>
+
+{% endblock %}
+

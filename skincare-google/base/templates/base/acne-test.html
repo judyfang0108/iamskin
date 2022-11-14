@@ -1,0 +1,171 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<head>
+  <title>痘痘檢測-AcneTest</title>
+</head>
+
+<body>
+  <div class="vertical-blank2"></div>
+  <div class="gray-full-line"></div>
+  <h1 class="main-title" style="text-decoration:underline;">痘痘檢測工具</h1>
+  <h3>透過影像分析來檢測您痘痘的嚴重程度。</h3>
+  <dialog id="infoModal">
+    <h5>使用說明</h5>
+    <p>照片要確實含有您的「臉部」且盡量有充足光源，並注意不要「失焦」，否則判讀結果不具任何意義。</p>
+    <h5>照片範例</h5>
+    <p>請參考下方範例圖片來上傳「臉部」圖片，即可得到結果。</p>
+    {% load static %}
+    <img src="{% static 'image/acne-example.png' %}" style="width:90%; vertical-align:text-top;">
+  
+    <div>
+      <p class="warning">※上傳的圖片不會被保存。</p>
+      <button id="close">close</button>
+    </div>
+  </dialog>
+  
+  <div class="example">
+    <div>
+      <p><b>➭點擊查看如何使用：</b></p>
+    </div>
+    <div>
+      {% load static %}
+      <button id="show"><img src="{% static 'image/question-mark.png' %}" style="height:23px;"></button>
+    </div>
+  </div>
+  <script>
+    let btn = document.querySelector("#show");
+    let infoModal = document.querySelector("#infoModal");
+    let close = document.querySelector("#close");
+    btn.addEventListener("click", function () {
+      infoModal.showModal();
+    })
+    close.addEventListener("click", function () {
+      infoModal.close();
+    })
+  </script>
+
+  <form method="post" enctype="multipart/form-data" style="margin-top: 50px; margin-bottom: 30px; float: left;">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" id="btnUpload" class="btn btn-primary" style="float: right">Upload</button>
+  </form>
+
+{% if image_uri is not None %}
+{% if predicted_label is not None %}
+    <div class="result-normal" role="alert">
+      <b>Predicted acne-severity result: {{ predicted_label }}</b>
+    </div>
+    {% else %}
+    <div class="result-danger" role="alert">
+      Prediction error. No label predicted.
+    </div>
+    {% endif %}
+
+<div class="report" style="float:left; width:100% ">
+  <div style="float:left; width:100%">
+    <div style="border:1px  #e7e7e7;width:30%; float:left">
+      <div>
+        <b style="color: #778FA8; font-size: larger; font-weight: bolder;">➭Your Image:</b>
+      </div>
+      <div>
+        <img src="{{ image_uri }}" alt="Uploaded image"
+          style="max-height: 400px;max-width:100%; vertical-align:text-top;">
+      </div>
+    </div>
+
+    <div style="border:1px  #e7e7e7 solid;width:9.5%; float:left;"></div>
+
+    <div style="border:1px white;width:60%; float:left">
+      <div>
+        <b style="color: #778FA8; font-size: larger; font-weight: bolder;">➭Result:</b>
+      </div>
+      <div>
+        {% load static %}
+        {% if img == 'mild' %}
+        <img src="{% static 'image/acne_low.png' %}" class="img-fluid" alt="Uploaded image"
+          style="width:90%; vertical-align:text-top;">
+        {% elif img == 'moderate' %}
+        <img src="{% static 'image/acne_middle.png' %}" class="img-fluid" alt="Uploaded image"
+          style="width:90%; vertical-align:text-top;">
+        {% elif img == 'severe' %}
+        <img src="{% static 'image/acne_m_high.png' %}" class="img-fluid" alt="Uploaded image"
+          style="width:90%; vertical-align:text-top;">
+        {% else %}
+        <img src="{% static 'image/acne_high.png' %}" class="img-fluid" alt="Uploaded image"
+          style="width:90%; vertical-align:text-top;">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="vertical-blank4"></div>
+  <div class="gray-full-line"></div>
+  <div style="float:left; width:95%">
+    <div style="float:left;">
+      <div style="float:left">
+        <div>
+          <b style="color: #778FA8;; font-size: larger; font-weight: bolder;">➭More Information:</b>
+        </div>
+        <div class="vertical-blank4"></div>
+        <div>
+          <h4><b>▪ 為什麼痘痘找上我？解析痘痘形成原因</b></h4>
+        </div>
+        <div>
+          <h4>
+            皮膚冒痘痘，主要是因為美肌屏障機能失調，肌膚角質無法正常代謝、皮脂分泌過剩，使油脂和老廢角質堵塞毛孔，痤瘡桿菌增生，進而導致粉刺問題。當粉刺發炎，便會形成紅腫的痘痘，尤其生理期會影響女性體內激素的分泌，更容易出現痘痘問題。<br>
+          </h4>
+          <hr style="border: whitesmoke;">
+          <img src="{% static 'image/acne-make.png' %}" class="img-fluid" alt="Uploaded image"
+            style="width:80%; vertical-align:text-top;">
+          </h4>
+        </div>
+
+        <div class="vertical-blank4"></div>
+        <div>
+          <h4><b>▪ 該如何抗痘？先避免3大抗痘NG行為！</b></h4>
+        </div>
+        <div>
+          <h4><b>1. 熬夜、作息混亂或刺激性飲食</b<br>
+            睡眠不足、作息混亂或刺激性飲食（例如油炸食品、甜點或巧克力等高油高糖的食物），都會影響肌膚油脂分泌量，使角質過度堆積並阻塞毛孔，長出惱人的痘痘。
+          </h4>
+          <h4><b>2. 使用不適當的保養品</b<br>
+              預防痘痘產生，最重要的就是要維持肌膚油水平衡，油份過高的保養品容易堵塞毛孔；反之，過度使用控油型的保養品，容易使肌膚表面乾燥，生理機能反而會分泌更多油脂，導致長痘痘的問題。
+          </h4>
+          <h4><b>3. 過度使用化妝品遮瑕</b<br>
+              許多女孩為了遮掩臉上膚色不均、毛孔等瑕疵，會疊上一層又一層的化妝品，然而若卸妝不確實，殘妝堆積在臉上，反而會刺激毛孔堵塞、使痘痘惡化，也可能會再生成新的痘痘。
+          </h4>
+        </div>
+        <div class="vertical-blank4"></div>
+        <div>
+          <h4><b>▪ 正確抗痘保養觀念</b></h4>
+        </div>
+        <div>
+          <h4><b>1. 適當清潔肌膚</b<br>
+              建議一天洗1～2次臉，清除毛孔內堆積的油污和老廢角質，並選擇溫和的潔面產品，避免過度清潔使肌膚流失水分，導致痘痘發炎情形惡化。
+          </h4>
+          <h4><b>2. 清爽保養</b<br>
+              在抗痘期間，建議簡化肌膚保養程序，選擇清爽、油脂含量低的保養品，不僅能夠舒緩肌膚不適，也可以避免對脆弱的痘痘肌造成負擔。
+          </h4>
+          <h4><b>3. 不要自行擠痘痘</b<br>
+            臉上長出一顆一顆的痘痘，許多人都會忍不住去摳、擠，卻會因此摳出傷口，使痘痘再次發炎，甚至留下難以消去的疤痕。肌膚有代謝週期，只要做好基礎保養，痘痘便會自然消腫且不會留下痘疤。如果痘痘出現紅腫、刺痛等惡化情形，建議立即尋找皮膚科醫生。
+          </h4>
+          <h4><b>4. 選擇具抗痘成分的保養品</b<br>
+              使用內含抗痘成份的保養品，例如海棠花萃取物和茶樹萃取物，可以防止痘痘繼續生成；甘草酸鹽則有助於緩解痘痘腫脹不適，幫助你一步步養回健康光滑的肌膚。另外，A酸、水楊酸、果酸等酸類成分也有助於抗痘，但因為酸類成份較為刺激，痘痘肌較脆弱、敏感，建議經醫生專業指示再使用在臉上。
+          </h4>
+        </div>
+      </div>
+      <div class="vertical-blank4"></div>
+      <h4 style="color: #778FA8;">
+        ➭參考連結:
+        <a style="color: #778FA8;"
+          href="https://dprogram.com.tw/cloud/zh-TW/info/detail/ease_sensitive/skincare-for-acne?page=1">hhttps://dprogram.com.tw/cloud/zh-TW/info/detail/ease_sensitive/skincare-for-acne?page=1</a>
+      </h4>
+
+    </div>
+  </div>
+
+
+  {% endif %}
+
+  {% endblock %}

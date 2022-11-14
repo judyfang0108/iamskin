@@ -1,0 +1,165 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<head>
+  <title>指甲檢測-NailTest</title>
+</head>
+
+<body>
+  <div class="vertical-blank2"></div>
+  <div class="gray-full-line"></div>
+  <h1 class="main-title" style="text-decoration:underline;">指甲檢測工具</h1>
+  <h3>透過影像分析來檢測您的指甲異常風險。</h3>
+
+  <dialog id="infoModal">
+    <h5>使用說明</h5>
+    <p>照片要確實含有您的「指甲」且盡量有充足光源，並注意不要「失焦」，否則判讀結果不具任何意義。</p>
+    <h5>照片範例</h5>
+    <p>請參考下方範例圖片來上傳「指甲圖片，即可得到結果。</p>
+    {% load static %}
+    <img src="{% static 'image/nail-example.png' %}" style="width:90%; vertical-align:text-top;">
+  
+    <div>
+      <p class="warning">※上傳的圖片不會被保存。</p>
+      <button id="close">close</button>
+    </div>
+  </dialog>
+  
+  <div class="example">
+    <div>
+      <p><b>➭點擊查看如何使用：</b></p>
+    </div>
+    <div>
+      {% load static %}
+      <button id="show"><img src="{% static 'image/question-mark.png' %}" style="height:23px;"></button>
+    </div>
+  </div>
+  <script>
+    let btn = document.querySelector("#show");
+    let infoModal = document.querySelector("#infoModal");
+    let close = document.querySelector("#close");
+    btn.addEventListener("click", function () {
+      infoModal.showModal();
+    })
+    close.addEventListener("click", function () {
+      infoModal.close();
+    })
+  </script>
+  <!-- <h4 style="color: #6B5876">➩另有即時偵測功能，點此前往：<a style="color: #6B5876" href="/">指甲即時偵測</a></h4> -->
+
+  <form method="post" enctype="multipart/form-data" style="margin-top: 50px; margin-bottom: 30px; float: left;">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" id="btnUpload" class="btn btn-primary" style="float: right">Upload</button>
+  </form>
+
+  {% if image_uri is not None %}
+  {% if predicted_label is not None %}
+    <div class="result-normal" role="alert">
+      <b>Predicted nail-risk result: {{ predicted_label }}</b>
+    </div>
+    {% else %}
+    <div class="result-danger" role="alert">
+      Prediction error. No label predicted.
+    </div>
+    {% endif %}
+  
+  <div class="report" style="float:left; width:100% ">
+    <div style="float:left; width:100%">
+      <div style="border:1px  #e7e7e7;width:30%; float:left">
+        <div>
+          <b style="color: #778FA8;; font-size: larger; font-weight: bolder;">➭Your Image:</b>
+        </div>
+        <div>
+          <img src="{{ image_uri }}" alt="Uploaded image"
+            style="max-height: 400px;max-width:100%; vertical-align:text-top;">
+        </div>
+      </div>
+  
+      <div style="border:1px  whitesmoke solid;width:9.5%; float:left;"></div>
+  
+      <div style="border:1px #e7e7e7;width:60%; float:left">
+        <div>
+          <b style="color: #778FA8;; font-size: larger; font-weight: bolder;">➭Result:</b>
+        </div>
+        <div>
+          {% load static %}
+          {% if img == 'low' %}
+          <img src="{% static 'image/nail_result_L_V2.png' %}" class="img-fluid" alt="Uploaded image"
+            style="width:90%; vertical-align:text-top;">
+          {% else %}
+          <img src="{% static 'image/nail_result_H_V2.png' %}" class="img-fluid" alt="Uploaded image"
+            style="width:90%; vertical-align:text-top;">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  
+    <div class="vertical-blank4"></div>
+    <div class="gray-full-line"></div>
+    <div style="float:left; width:95%">
+        <div style="float:left">
+          <div>
+            <b style="color: #778FA8;; font-size: larger; font-weight: bolder;">➭More Information:</b>
+          </div>
+          <div class="vertical-blank4"></div>
+          <div>
+            <h4><b>▪ 指甲看得出健康？醫：身體健康也會影響指甲。</b></h4>
+          </div>
+          <div>
+            <h4>指甲外觀不僅和指甲的健康狀況有關，身體是一整組的，出現疾病也會在各處留下蹤跡，包括指甲。大灣健全診所家醫科王威傑醫師提醒，平時可多觀察指甲狀況，以利發現異常盡早檢查，有些情況甚至與癌症、腎病變、心臟病有關。<br>
+           <hr style="border: whitesmoke;">
+            {% load static %}
+            <img src="{% static 'image/nail-health.png' %}" class="img-fluid" alt="Uploaded image"
+              style="width:50%; vertical-align:text-top;">
+            </h4>
+          </div>
+          <div class="vertical-blank4"></div>
+          <div>
+            <h4><b>▪ 發現指甲異常怎麼辦？醫：檢查出原因中的關鍵</b></h4>
+          </div>
+          <div>
+            <h4>許多民眾發現身體出現異常，多會打聽可以吃什麼來補，包括指甲問題，王威傑醫師提醒，指甲外觀異常雖然也可能與營養有關，但如前述，也可能藏有各種疾病、甚至是癌症等風險，且即便是營養缺乏所致，也不能單靠補充營養來改善，應從「原因中的關鍵」著手。<br>
+            </h4>
+            <h4>
+              例如民眾觀察到指甲變薄、易裂，推測自己可能有缺鐵性貧血，應找出為何會缺鐵性貧血，如月經異常，那麼就得找出月經異常的原因並改善，而非胡亂補鐵。又或者白色橫條紋的指甲，可能是因為蛋白缺乏，背後可能為腎病變使得蛋白不斷流失，因此再怎麼補也補不起來，此問題自然得尋求醫師協助，關鍵就在及早就醫，經檢查找出原因，以利治療及改善。<br>
+            </h4>
+          </div>
+          <div class="vertical-blank4"></div>
+          <div>
+            <h4><b>▪ ５種指甲異常盡速就醫，留意癌症等重大疾病！</b></h4>
+          </div>
+          <div>
+            <h4>王威傑醫師也從中特別提醒，５種情況應盡速就醫，別再觀察，因為這往往和癌症等重大疾病有關。包括了單一指脆裂的情況，可能為鱗狀細胞癌。單一指出現黑色、棕色紋路，可能黴菌感染或黑色素細胞瘤，也是癌症的一種。而杵狀指則與肺部相關癌症有關。多指、單條的粗白線，則有金屬中毒的疑慮。多條痕條紋，則可能為腎病症候群，患者未必知道。上述情況就別再遲疑，盡早釐清原因，以免延誤。<br>
+            </h4>
+            <hr style="border: whitesmoke;">
+            <img src="{% static 'image/nail-risk.png' %}" class="img-fluid" alt="Uploaded image"
+              style="width:50%; vertical-align:text-top;">
+            </h4>
+          </div>
+          <div class="vertical-blank4"></div>
+          <div>
+            <h4 style="color: #778FA8;">
+              ➭參考連結:
+              <a style="color: #778FA8;"
+                href="https://health.udn.com/health/story/9830/5952337">https://health.udn.com/health/story/9830/5952337</a>
+            </h4>
+          </div>
+        </div>
+      
+    </div>
+  
+  
+    {% endif %}
+  
+    {% endblock %}
+
+ 
+
+
+
+
+
+
+
+  

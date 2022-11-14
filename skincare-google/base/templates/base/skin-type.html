@@ -1,0 +1,147 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+  <title>膚質檢測-SkinType</title>
+</head>
+
+
+<body>
+  <div class="vertical-blank2"></div>
+  <div class="gray-full-line"></div>
+  <h1 class="main-title" style="text-decoration:underline;">膚質檢測工具</h1>
+  <div id="how-to-use" >
+    <h3>透過影像分析來檢測您的膚質為乾性肌、油肌、敏感肌。</h3>
+    
+  </div>
+ 
+  <dialog id="infoModal">
+    <h5>使用說明</h5></li>
+    <p>照片要確實含有您的「肌膚」且盡量有充足光源，並注意不要「失焦」，否則判讀結果不具任何意義。</p>
+    <h5>照片範例</h5>
+    <p>請參考下方範例圖片來上傳「肌膚」圖片，即可得到結果。</p>
+    {% load static %}
+    <img src="{% static 'image/skin-example.png' %}"  style="width:90%; vertical-align:text-top;">
+    <div>
+      <p class="warning">※上傳的圖片不會被保存。</p>
+      <button id="close">close</button>
+    </div>
+   
+  </dialog>
+  
+  <div class="example">
+    <div>
+      <p><b>➭點擊查看如何使用：</b></p>
+    </div>
+    <div>
+      {% load static %}
+      <button id="show"><img src="{% static 'image/question-mark.png' %}" style="height:23px;"></button>
+    </div>
+  </div>
+  <script>
+    let btn = document.querySelector("#show");
+    let infoModal = document.querySelector("#infoModal");
+    let close = document.querySelector("#close");
+    btn.addEventListener("click", function () {
+      infoModal.showModal();
+    })
+    close.addEventListener("click", function () {
+      infoModal.close();
+    })
+  </script>
+ 
+  <!-- <h4 style="color: #6B5876">➩另有即時偵測功能，點此前往：<a style="color: #6B5876" href="/">膚質即時偵測</a></h4> -->
+
+  
+  <form method="post" enctype="multipart/form-data" style="margin-top: 50px; margin-bottom: 30px; float: left;">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" id="btnUpload" class="btn btn-primary" style="float: right" >Upload</button>
+  </form>
+
+  {% if image_uri is not None %}
+  {% if predicted_label is not None %}
+  <div class="result-normal" role="alert">
+    <b>Predicted skin-type result: {{ predicted_label }}</b>
+  </div>
+  {% else %}
+  <div class="result-danger" role="alert">
+    Prediction error. No label predicted.
+  </div>
+  {% endif %}
+  
+  <div class="report" style="float:left; width:100% "> 
+      <div style="float:left; width:100%">
+        <div style="border:1px  #e7e7e7;width:30%; float:left">
+          <div>
+            <b style="color: #778FA8; font-size: larger; font-weight: bolder;">➭Your Image:</b>
+          </div>
+          <div>
+            <img src="{{ image_uri }}" alt="Uploaded image"
+              style="max-height: 400px;max-width:100%; vertical-align:text-top;">
+          </div>
+        </div>
+      
+        <div style="border:1px  whitesmoke solid;width:9.5%; float:left;"></div>
+      
+        <div style="border:1px #e7e7e7;width:60%; float:left">
+          <div>
+            <b style="color: #778FA8; font-size: larger; font-weight: bolder;">➭Result:</b>
+          </div>
+          <div>
+            <img src="{{ img }}" alt="Uploaded image" style="max-height: 400px;max-width:100%; vertical-align:text-top;">
+          </div>
+        </div>
+      </div>
+      
+      <div class="vertical-blank4"></div>
+      <div class="gray-full-line"></div>
+      <div style="float:left; width:95%">
+        <div style="float:left;">
+          <div style="float:left">
+            <div>
+              <b style="color: #778FA8;; font-size: larger; font-weight: bolder;">➭More Information:</b>
+            </div>
+            <div class="vertical-blank4"></div>
+            <div>
+              <h4><b>▪ 乾性肌</b></h4>
+            </div>
+            <div>
+              <h4>特徵：毛孔細小、皮膚不容易出油，洗臉後有緊繃現象，皮膚容易脫皮、粗糙，很容易長細紋。<br>
+                護膚重點：乾性肌膚很容易乾燥缺水，平時應該以保濕、滋潤保養為主，並在保養的最後一個步驟搭配乳霜，將保養品鎖進肌膚，才不易流失水分。選擇溫和型的清潔產品，盡量少用去角質及酸類產品，否則很容易造成皮膚更乾燥，導致細紋的產生！
+              </h4>
+            </div>
+            <div class="vertical-blank4"></div>
+            <div>
+              <h4><b>▪ 油性肌</b></h4>
+            </div>
+            <div >
+              <h4>特徵：皮脂分泌旺盛、毛孔粗大，膚色暗沉且容易長痘痘、 粉刺，鼻頭也經常有黒頭粉刺。<br>
+                護膚重點：油性肌膚的護理以清潔控油、補水爲主！因為出油旺盛，容易將油脂堵塞毛孔，可以定期做深層清潔疏通毛孔。很多油性肌膚可能認為本身已經很容易出油，因此不在意肌膚保濕，但事實上這樣很容易導致肌膚油水不平衡，加劇出油的現象！可以選擇質地清爽、好吸收的保養產品，平時也可以搭配酸類產品幫助代謝粉刺、控油。
+              </h4>
+            </div>
+            <div class="vertical-blank4"></div>
+            <div>
+              <h4><b>▪ 敏感肌</b></h4>
+            </div>
+            <div>
+              <h4 >敏感肌嚴格來說不算是膚質的種類，而是皮膚的「狀態」，因此不管是乾性肌或油性肌都有可能碰上敏感肌的問題。皮膚較薄，容易乾燥脫皮，換季時還很容易出
+                現丘疹、紅腫癢等過敏現象，另外還有痘痘、肌膚粗糙、毛孔粗大等問題。<br>
+                護膚重點：敏感性皮膚較爲脆弱，護理時要特別小心！建議選擇無皂鹼的清潔產品，避免太用力揉搓肌膚，並選擇成分單純、溫和的保濕溼+修復型產品。並且不要使用含酒精、 高濃度酸類等成分，以免讓肌膚屏障受損！</h4>
+            </div>
+          </div>          
+          </h4>
+          <div class="vertical-blank4"></div>
+          <h4 style="color: #778FA8;">
+            ➭參考連結:
+            <a style="color: #778FA8;" href="https://www.beauty321.com/post/44587">https://www.beauty321.com/post/44587</a>
+          </h4>
+        </div>
+      </div>
+  </div>
+
+
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+  <title>使用教學</title>
+</head>
+
+<body>
+  <div class="vertical-blank2"></div>
+  <div class="gray-full-line"></div>
+  <h1 class="main-title" style="text-decoration:underline;">使用教學</h1>
+  <h3>▪ Line官方帳號</h3>
+  <h4 style="color: #6B5876">➭掃描QR code加入Line好友 </h4>
+  {% load static %}
+  <img src="{% static 'image/qrcode.jpg' %}" class="img-fluid" alt="Uploaded image"
+    style="width:30%; vertical-align:text-top;">
+
+  <h3>▪ 聯絡資訊</h3>
+  <h4 style="color: #6B5876">Email: uscciamskin@gmail.com</h4>
+  <h5><a style="color: #6B5876" href="mailto:uscciamskin@gmail.com?subject=Feedback&body=愛美膚使用回饋">
+      ➭Send Feedback
+    </a></h5>
+</body>
+
+{% endblock %}
