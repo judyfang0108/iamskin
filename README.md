@@ -1,4 +1,6 @@
 # iamskin
+## 介紹影片(yt連結)
+https://www.youtube.com/watch?v=URje6YuRAQU
 ## 應用程式連結
 ### **官方網站**
 目前架在免費的GCP上，網站還算穩定
