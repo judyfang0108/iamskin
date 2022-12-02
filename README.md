@@ -4,7 +4,7 @@ This is an project about AI skin testing<br>
 • Trained models for tests on three types of skin: dry, oily and sensitive skin<br>
 • Trained model to examine whether skin is healthy or not and detect tenpossible nail diseases<br>
 • Trained model to detect acne and categorize its seriousness.<br>
-## Introduction Video
+### Introduction Video
 https://www.youtube.com/watch?v=URje6YuRAQU
 ### **Official Website**
 * https://iam-skin.df.r.appspot.com
